@@ -79,13 +79,12 @@ export default function LoginPage() {
            bottom       /* Blue rainbow at bottom */
         `,
        display: 'flex',      // <-- Make Box a flex container
-    justifyContent: 'center',
-    alignItems: 'center',
-    px: 2,
-      }}
-    >
-     <Box
-       
+       justifyContent: 'center',
+       alignItems: 'center',
+       px: 2,
+       }}
+       >
+     <Box  
         sx={{
           p: 4,
            width: {
@@ -127,14 +126,13 @@ export default function LoginPage() {
      align="center"
      gutterBottom
      sx={{
-    paddingTop:"2rem",
-    fontWeight:700,
-    fontStyle:"bold",
-    color: 'hsla(0, 0%, 100%, 1)',
-    fontFamily: 'Cairo, sans-serif',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+     paddingTop:"2rem",
+     fontStyle:"bold",
+     color: 'hsla(0, 0%, 100%, 1)',
+     fontFamily: 'Cairo, sans-serif',
+     display: 'flex',
+     justifyContent: 'center',
+     alignItems: 'center',
      '& svg': {
       width: {
         xs: '140px',   // 90px on extra-small devices
@@ -176,28 +174,28 @@ export default function LoginPage() {
 
          <form  className="flex flex-col gap-9 pt-4"  onSubmit={handleSubmit}>
       {error && (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
-    <ReportGmailerrorredTwoToneIcon sx={{ width:44, height:45, color: 'hsla(0, 84%, 60%, 1)' }} />
-    <Typography color="hsla(0, 84%, 60%, 1)" fontWeight="cairo" sx={{ fontFamily: 'Cairo, sans-serif', fontWeight:500, fontSize:16, fontStyle:"Medium"}}>
-      wrong username or password
-    </Typography>
-    </Box>
-     )}
-    <TextField
-    placeholder="Username"
-    error={error}
-    variant="outlined"
-    value={userName}
-    onChange={(e) => setUserName(e.target.value)}
-    autoComplete="off"
-    InputProps={{
-    sx: {
+      <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
+      <ReportGmailerrorredTwoToneIcon sx={{ width:44, height:45, color: 'hsla(0, 84%, 60%, 1)' }} />
+      <Typography color="hsla(0, 84%, 60%, 1)" fontWeight="cairo" sx={{ fontFamily: 'Cairo, sans-serif', fontWeight:500, fontSize:16, fontStyle:"Medium"}}>
+        wrong username or password
+      </Typography>
+      </Box>
+      )}
+      <TextField
+      placeholder="Username"
+      error={error}
+      variant="outlined"
+      value={userName}
+      onChange={(e) => setUserName(e.target.value)}
+      autoComplete="off"
+      InputProps={{
+      sx: {
       alignSelf:'center',
         width: {
-      xs: '100%',    // Full width on mobile
-      sm: '300px',   // Slightly smaller on tablets
-      md: '350px'    // Default width on desktop
-    },
+        xs: '100%',    // Full width on mobile
+        sm: '300px',   // Slightly smaller on tablets
+        md: '350px'    // Default width on desktop
+       },
       height:50,
       fontFamily: 'Cairo, sans-serif',
       fontStyle:"Medium",
@@ -312,7 +310,7 @@ export default function LoginPage() {
         sx={{ padding: 1, marginLeft:2.5,boxShadow:"hsla(0, 0%, 0%, 0.25)" }} // optional: remove extra padding
         />
  
-}
+        }
         label="Remember me"
         sx={{ color: 'hsla(0, 0%, 100%, 1)',fontFamily:'Cairo, sans-serif',fontWeight:500, fontStyle:"Medium", fontSize:12 ,boxShadow:"hsla(0, 0%, 0%, 0.25)"}} // this sets the label text color to white
         />
