@@ -166,8 +166,14 @@ export default function CategorySliderNoSlick() {
             {/* The image box with background, fixed height */}
             <Box
             sx={{
-            width: 288,
-             height: 162,
+            width: {
+              xs:162,
+              lg:288
+            },
+             height: {
+              xs:243,
+              lg:162
+             },
              position: "relative",
              borderRadius: 0,
              background: "#111",
