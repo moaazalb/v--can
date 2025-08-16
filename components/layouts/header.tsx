@@ -1,982 +1,157 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
-import { IRootState } from '@/store';
-import { toggleTheme, toggleSidebar, toggleRTL } from '@/store/themeConfigSlice';
-import Dropdown from '@/components/dropdown';
-import IconMenu from '@/components/icon/icon-menu';
-import IconCalendar from '@/components/icon/icon-calendar';
-import IconEdit from '@/components/icon/icon-edit';
-import IconChatNotification from '@/components/icon/icon-chat-notification';
-import IconSearch from '@/components/icon/icon-search';
-import IconXCircle from '@/components/icon/icon-x-circle';
-import IconSun from '@/components/icon/icon-sun';
-import IconMoon from '@/components/icon/icon-moon';
-import IconLaptop from '@/components/icon/icon-laptop';
-import IconMailDot from '@/components/icon/icon-mail-dot';
-import IconArrowLeft from '@/components/icon/icon-arrow-left';
-import IconInfoCircle from '@/components/icon/icon-info-circle';
-import IconBellBing from '@/components/icon/icon-bell-bing';
-import IconUser from '@/components/icon/icon-user';
-import IconMail from '@/components/icon/icon-mail';
-import IconLockDots from '@/components/icon/icon-lock-dots';
-import IconLogout from '@/components/icon/icon-logout';
-import IconMenuDashboard from '@/components/icon/menu/icon-menu-dashboard';
-import IconCaretDown from '@/components/icon/icon-caret-down';
-import IconMenuApps from '@/components/icon/menu/icon-menu-apps';
-import IconMenuComponents from '@/components/icon/menu/icon-menu-components';
-import IconMenuElements from '@/components/icon/menu/icon-menu-elements';
-import IconMenuDatatables from '@/components/icon/menu/icon-menu-datatables';
-import IconMenuForms from '@/components/icon/menu/icon-menu-forms';
-import IconMenuPages from '@/components/icon/menu/icon-menu-pages';
-import IconMenuMore from '@/components/icon/menu/icon-menu-more';
-import { usePathname, useRouter } from 'next/navigation';
-import { getTranslation } from '@/i18n';
+import React from 'react';
+import { AppBar, Typography, Box} from '@mui/material';
+import { PlatformSelection } from '../custom/CustomPlatform';
+import { CustomSelect } from '../custom/CustomSelect';
+
+
 
 const Header = () => {
-    const pathname = usePathname();
-    const dispatch = useDispatch();
-    const router = useRouter();
-    const { t, i18n } = getTranslation();
-
-    useEffect(() => {
-        const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
-        if (selector) {
-            const all: any = document.querySelectorAll('ul.horizontal-menu .nav-link.active');
-            for (let i = 0; i < all.length; i++) {
-                all[0]?.classList.remove('active');
-            }
-
-            let allLinks = document.querySelectorAll('ul.horizontal-menu a.active');
-            for (let i = 0; i < allLinks.length; i++) {
-                const element = allLinks[i];
-                element?.classList.remove('active');
-            }
-            selector?.classList.add('active');
-
-            const ul: any = selector.closest('ul.sub-menu');
-            if (ul) {
-                let ele: any = ul.closest('li.menu').querySelectorAll('.nav-link');
-                if (ele) {
-                    ele = ele[0];
-                    setTimeout(() => {
-                        ele?.classList.add('active');
-                    });
-                }
-            }
-        }
-    }, [pathname]);
-
-    const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl';
-
-    const themeConfig = useSelector((state: IRootState) => state.themeConfig);
-    const setLocale = (flag: string) => {
-        if (flag.toLowerCase() === 'ae') {
-            dispatch(toggleRTL('rtl'));
-        } else {
-            dispatch(toggleRTL('ltr'));
-        }
-        router.refresh();
-    };
-
-    function createMarkup(messages: any) {
-        return { __html: messages };
-    }
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
-            title: 'Congratulations!',
-            message: 'Your OS has been updated.',
-            time: '1hr',
-        },
-        {
-            id: 2,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-info-light dark:bg-info text-info dark:text-info-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
-            title: 'Did you know?',
-            message: 'You can switch between artboards.',
-            time: '2hr',
-        },
-        {
-            id: 3,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-danger-light dark:bg-danger text-danger dark:text-danger-light"> <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
-            title: 'Something went wrong!',
-            message: 'Send Reposrt',
-            time: '2days',
-        },
-        {
-            id: 4,
-            image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
-            title: 'Warning',
-            message: 'Your password strength is low.',
-            time: '5days',
-        },
-    ]);
-
-    const removeMessage = (value: number) => {
-        setMessages(messages.filter((user) => user.id !== value));
-    };
-
-    const [notifications, setNotifications] = useState([
-        {
-            id: 1,
-            profile: 'user-profile.jpeg',
-            message: '<strong class="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
-            time: '45 min ago',
-        },
-        {
-            id: 2,
-            profile: 'profile-34.jpeg',
-            message: '<strong class="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
-            time: '9h Ago',
-        },
-        {
-            id: 3,
-            profile: 'profile-16.jpeg',
-            message: '<strong class="text-sm mr-1">Anna Morgan</strong>Upload a file',
-            time: '9h Ago',
-        },
-    ]);
-
-    const removeNotification = (value: number) => {
-        setNotifications(notifications.filter((user) => user.id !== value));
-    };
-
-    const [search, setSearch] = useState(false);
-
     return (
-        <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
-            <div className="shadow-sm">
-                <div className="relative flex w-full items-center bg-white px-5 py-2.5 dark:bg-black">
-                    <div className="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
-                        <Link href="/" className="main-logo flex shrink-0 items-center">
-                            <img className="inline w-8 ltr:-ml-1 rtl:-mr-1" src="/assets/images/logo.svg" alt="logo" />
-                            <span className="hidden align-middle text-2xl  font-semibold  transition-all duration-300 ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light md:inline">VRISTO</span>
-                        </Link>
-                        <button
-                            type="button"
-                            className="collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary ltr:ml-2 rtl:mr-2 dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden"
-                            onClick={() => dispatch(toggleSidebar())}
-                        >
-                            <IconMenu className="h-5 w-5" />
-                        </button>
-                    </div>
+        <AppBar
+            position="fixed" 
+            elevation={0} 
+            sx={{
+                display: 'flex',
+                  width: "100%",
+                   height: "193px",
+                padding: 'var(--Space-4XL, 3rem) var(--Horizontal-Padding, 6rem)',
+                gap: 'var(--Space-S, 0.5rem) var(--Space-4XL, 3rem)',
+                flexWrap:"wrap",
+                background: 'linear-gradient(360deg, rgba(11, 13, 16, 0) 0%, #15191E 64.34%)'
 
-                    <div className="hidden ltr:mr-2 rtl:ml-2 sm:block">
-                        <ul className="flex items-center space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
-                            <li>
-                                <Link href="/apps/calendar" className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
-                                    <IconCalendar />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/apps/todolist" className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
-                                    <IconEdit />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/apps/chat" className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
-                                    <IconChatNotification />
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="flex items-center space-x-1.5 ltr:ml-auto rtl:mr-auto rtl:space-x-reverse dark:text-[#d0d2d6] sm:flex-1 ltr:sm:ml-0 sm:rtl:mr-0 lg:space-x-2">
-                        <div className="sm:ltr:mr-auto sm:rtl:ml-auto">
-                            <form
-                                className={`${search && '!block'} absolute inset-x-0 top-1/2 z-10 mx-4 hidden -translate-y-1/2 sm:relative sm:top-0 sm:mx-0 sm:block sm:translate-y-0`}
-                                onSubmit={() => setSearch(false)}
-                            >
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        className="peer form-input bg-gray-100 placeholder:tracking-widest ltr:pl-9 ltr:pr-9 rtl:pl-9 rtl:pr-9 sm:bg-transparent ltr:sm:pr-4 rtl:sm:pl-4"
-                                        placeholder="Search..."
-                                    />
-                                    <button type="button" className="absolute inset-0 h-9 w-9 appearance-none peer-focus:text-primary ltr:right-auto rtl:left-auto">
-                                        <IconSearch className="mx-auto" />
-                                    </button>
-                                    <button type="button" className="absolute top-1/2 block -translate-y-1/2 hover:opacity-80 ltr:right-2 rtl:left-2 sm:hidden" onClick={() => setSearch(false)}>
-                                        <IconXCircle />
-                                    </button>
-                                </div>
-                            </form>
-                            <button
-                                type="button"
-                                onClick={() => setSearch(!search)}
-                                className="search_btn rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 dark:bg-dark/40 dark:hover:bg-dark/60 sm:hidden"
-                            >
-                                <IconSearch className="mx-auto h-4.5 w-4.5 dark:text-[#d0d2d6]" />
-                            </button>
-                        </div>
-                        <div>
-                            {themeConfig.theme === 'light' ? (
-                                <button
-                                    className={`${
-                                        themeConfig.theme === 'light' &&
-                                        'flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'
-                                    }`}
-                                    onClick={() => dispatch(toggleTheme('dark'))}
-                                >
-                                    <IconSun />
-                                </button>
-                            ) : (
-                                ''
-                            )}
-                            {themeConfig.theme === 'dark' && (
-                                <button
-                                    className={`${
-                                        themeConfig.theme === 'dark' &&
-                                        'flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'
-                                    }`}
-                                    onClick={() => dispatch(toggleTheme('system'))}
-                                >
-                                    <IconMoon />
-                                </button>
-                            )}
-                            {themeConfig.theme === 'system' && (
-                                <button
-                                    className={`${
-                                        themeConfig.theme === 'system' &&
-                                        'flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'
-                                    }`}
-                                    onClick={() => dispatch(toggleTheme('light'))}
-                                >
-                                    <IconLaptop />
-                                </button>
-                            )}
-                        </div>
-                        <div className="dropdown shrink-0">
-                            <Dropdown
-                                offset={[0, 8]}
-                                placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                btnClassName="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                                button={i18n.language && <img className="h-5 w-5 rounded-full object-cover" src={`/assets/images/flags/${i18n.language.toUpperCase()}.svg`} alt="flag" />}
-                            >
-                                <ul className="grid w-[280px] grid-cols-2 gap-2 !px-2 font-semibold text-dark dark:text-white-dark dark:text-white-light/90">
-                                    {themeConfig.languageList.map((item: any) => {
-                                        return (
-                                            <li key={item.code}>
-                                                <button
-                                                    type="button"
-                                                    className={`flex w-full hover:text-primary ${i18n.language === item.code ? 'bg-primary/10 text-primary' : ''}`}
-                                                    onClick={() => {
-                                                        i18n.changeLanguage(item.code);
-                                                        setLocale(item.code);
-                                                    }}
-                                                >
-                                                    <img src={`/assets/images/flags/${item.code.toUpperCase()}.svg`} alt="flag" className="h-5 w-5 rounded-full object-cover" />
-                                                    <span className="ltr:ml-3 rtl:mr-3">{item.name}</span>
-                                                </button>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </Dropdown>
-                        </div>
-                        <div className="dropdown shrink-0">
-                            <Dropdown
-                                offset={[0, 8]}
-                                placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                btnClassName="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                                button={<IconMailDot />}
-                            >
-                                <ul className="w-[300px] !py-0 text-xs text-dark dark:text-white-dark sm:w-[375px]">
-                                    <li className="mb-5" onClick={(e) => e.stopPropagation()}>
-                                        <div className="relative !h-[68px] w-full overflow-hidden rounded-t-md p-5 text-white hover:!bg-transparent">
-                                            <div className="bg- absolute inset-0 h-full w-full bg-[url(/assets/images/menu-heade.jpg)] bg-cover bg-center bg-no-repeat"></div>
-                                            <h4 className="relative z-10 text-lg font-semibold">Messages</h4>
-                                        </div>
-                                    </li>
-                                    {messages.length > 0 ? (
-                                        <>
-                                            <li onClick={(e) => e.stopPropagation()}>
-                                                {messages.map((message) => {
-                                                    return (
-                                                        <div key={message.id} className="flex items-center px-5 py-3">
-                                                            <div dangerouslySetInnerHTML={createMarkup(message.image)}></div>
-                                                            <span className="px-3 dark:text-gray-500">
-                                                                <div className="text-sm font-semibold dark:text-white-light/90">{message.title}</div>
-                                                                <div>{message.message}</div>
-                                                            </span>
-                                                            <span className="whitespace-pre rounded bg-white-dark/20 px-1 font-semibold text-dark/60 ltr:ml-auto ltr:mr-2 rtl:ml-2 rtl:mr-auto dark:text-white-dark">
-                                                                {message.time}
-                                                            </span>
-                                                            <button type="button" className="text-neutral-300 hover:text-danger" onClick={() => removeMessage(message.id)}>
-                                                                <IconXCircle />
-                                                            </button>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </li>
-                                            <li className="mt-5 border-t border-white-light text-center dark:border-white/10">
-                                                <button type="button" className="group !h-[48px] justify-center !py-4 font-semibold text-primary dark:text-gray-400">
-                                                    <span className="group-hover:underline ltr:mr-1 rtl:ml-1">VIEW ALL ACTIVITIES</span>
-                                                    <IconArrowLeft className="transition duration-300 group-hover:translate-x-1 ltr:ml-1 rtl:mr-1" />
-                                                </button>
-                                            </li>
-                                        </>
-                                    ) : (
-                                        <li className="mb-5" onClick={(e) => e.stopPropagation()}>
-                                            <button type="button" className="!grid min-h-[200px] place-content-center text-lg hover:!bg-transparent">
-                                                <div className="mx-auto mb-4 rounded-full text-primary ring-4 ring-primary/30">
-                                                    <IconInfoCircle fill={true} className="h-10 w-10" />
-                                                </div>
-                                                No data available.
-                                            </button>
-                                        </li>
-                                    )}
-                                </ul>
-                            </Dropdown>
-                        </div>
-                        <div className="dropdown shrink-0">
-                            <Dropdown
-                                offset={[0, 8]}
-                                placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                btnClassName="relative block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                                button={
-                                    <span>
-                                        <IconBellBing />
-                                        <span className="absolute top-0 flex h-3 w-3 ltr:right-0 rtl:left-0">
-                                            <span className="absolute -top-[3px] inline-flex h-full w-full animate-ping rounded-full bg-success/50 opacity-75 ltr:-left-[3px] rtl:-right-[3px]"></span>
-                                            <span className="relative inline-flex h-[6px] w-[6px] rounded-full bg-success"></span>
-                                        </span>
-                                    </span>
-                                }
-                            >
-                                <ul className="w-[300px] divide-y !py-0 text-dark dark:divide-white/10 dark:text-white-dark sm:w-[350px]">
-                                    <li onClick={(e) => e.stopPropagation()}>
-                                        <div className="flex items-center justify-between px-4 py-2 font-semibold">
-                                            <h4 className="text-lg">Notification</h4>
-                                            {notifications.length ? <span className="badge bg-primary/80">{notifications.length}New</span> : ''}
-                                        </div>
-                                    </li>
-                                    {notifications.length > 0 ? (
-                                        <>
-                                            {notifications.map((notification) => {
-                                                return (
-                                                    <li key={notification.id} className="dark:text-white-light/90" onClick={(e) => e.stopPropagation()}>
-                                                        <div className="group flex items-center px-4 py-2">
-                                                            <div className="grid place-content-center rounded">
-                                                                <div className="relative h-12 w-12">
-                                                                    <img className="h-12 w-12 rounded-full object-cover" alt="profile" src={`/assets/images/${notification.profile}`} />
-                                                                    <span className="absolute bottom-0 right-[6px] block h-2 w-2 rounded-full bg-success"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex flex-auto ltr:pl-3 rtl:pr-3">
-                                                                <div className="ltr:pr-3 rtl:pl-3">
-                                                                    <h6
-                                                                        dangerouslySetInnerHTML={{
-                                                                            __html: notification.message,
-                                                                        }}
-                                                                    ></h6>
-                                                                    <span className="block text-xs font-normal dark:text-gray-500">{notification.time}</span>
-                                                                </div>
-                                                                <button
-                                                                    type="button"
-                                                                    className="text-neutral-300 opacity-0 hover:text-danger group-hover:opacity-100 ltr:ml-auto rtl:mr-auto"
-                                                                    onClick={() => removeNotification(notification.id)}
-                                                                >
-                                                                    <IconXCircle />
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                );
-                                            })}
-                                            <li>
-                                                <div className="p-4">
-                                                    <button className="btn btn-primary btn-small block w-full">Read All Notifications</button>
-                                                </div>
-                                            </li>
-                                        </>
-                                    ) : (
-                                        <li onClick={(e) => e.stopPropagation()}>
-                                            <button type="button" className="!grid min-h-[200px] place-content-center text-lg hover:!bg-transparent">
-                                                <div className="mx-auto mb-4 rounded-full ring-4 ring-primary/30">
-                                                    <IconInfoCircle fill={true} className="h-10 w-10 text-primary" />
-                                                </div>
-                                                No data available.
-                                            </button>
-                                        </li>
-                                    )}
-                                </ul>
-                            </Dropdown>
-                        </div>
-                        <div className="dropdown flex shrink-0">
-                            <Dropdown
-                                offset={[0, 8]}
-                                placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                btnClassName="relative group block"
-                                button={<img className="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="/assets/images/user-profile.jpeg" alt="userProfile" />}
-                            >
-                                <ul className="w-[230px] !py-0 font-semibold text-dark dark:text-white-dark dark:text-white-light/90">
-                                    <li>
-                                        <div className="flex items-center px-4 py-4">
-                                            <img className="h-10 w-10 rounded-md object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
-                                            <div className="truncate ltr:pl-4 rtl:pr-4">
-                                                <h4 className="text-base">
-                                                    John Doe
-                                                    <span className="rounded bg-success-light px-1 text-xs text-success ltr:ml-2 rtl:ml-2">Pro</span>
-                                                </h4>
-                                                <button type="button" className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white">
-                                                    johndoe@gmail.com
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <Link href="/users/profile" className="dark:hover:text-white">
-                                            <IconUser className="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
-                                            Profile
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/apps/mailbox" className="dark:hover:text-white">
-                                            <IconMail className="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
-                                            Inbox
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/auth/boxed-lockscreen" className="dark:hover:text-white">
-                                            <IconLockDots className="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
-                                            Lock Screen
-                                        </Link>
-                                    </li>
-                                    <li className="border-t border-white-light dark:border-white-light/10">
-                                        <Link href="/auth/boxed-signin" className="!py-3 text-danger">
-                                            <IconLogout className="h-4.5 w-4.5 shrink-0 rotate-90 ltr:mr-2 rtl:ml-2" />
-                                            Sign Out
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </Dropdown>
-                        </div>
-                    </div>
-                </div>
+            }}
+           >
+             
+                {/* Left Side (Logo or Title) */}
+                <Box sx={{ display: {sx:"none",lg:"flex"}, alignItems: 'center',paddingLeft: ''}}>
+                {/* Logo */}
+                <Box sx={{ width: 150, height: 26, aspectRatio: '75/13', display: 'flex', gap:"2px" }}>
+                <svg width="151" height="26" viewBox="0 0 151 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.2452 0.517264C7.73617 0.517264 8.16319 0.850358 8.2849 1.32621L10.9935 11.9894C11.5236 14.1266 11.9259 16.1727 12.3013 18.3306H12.4499C12.8067 16.1272 13.2049 14.1948 13.7103 11.9894L16.3178 1.33448C16.4354 0.854496 16.8644 0.515195 17.3595 0.515195H22.6859C23.4203 0.515195 23.9381 1.23931 23.7008 1.93861L15.9464 24.7484C15.7979 25.1849 15.3895 25.4766 14.9315 25.4766H9.2297C8.76967 25.4766 8.36122 25.1828 8.2127 24.7442L0.557332 1.93447C0.322163 1.23725 0.839947 0.517264 1.57227 0.517264H7.2452Z" fill="white"/>
+                <path d="M99.3573 23.6725C99.4316 24.1773 99.1222 24.6594 98.6188 24.8125C97.3378 25.2014 95.4482 25.4952 93.3543 25.4952C85.8331 25.4952 81.0142 20.896 81.0142 13.241C81.0142 6.0764 85.8558 0.504823 94.4002 0.504823C95.902 0.504823 97.4615 0.724127 98.7034 1.0655C99.2336 1.21032 99.5492 1.73789 99.4419 2.25926L98.7529 5.63158C98.6333 6.21709 98.0268 6.56259 97.4306 6.41156C96.7251 6.23157 95.8442 6.10123 94.7468 6.10123C90.9201 6.10123 88.5189 8.95219 88.5416 12.9679C88.5416 17.3706 91.2605 19.8202 94.8128 19.8202C95.8566 19.8202 96.7498 19.7022 97.5379 19.4995C98.1547 19.3402 98.7735 19.7416 98.8643 20.3519L99.3594 23.6725H99.3573Z" fill="white"/>
+                <path d="M118.94 25.4952C118.428 25.4952 117.991 25.1269 117.905 24.62L117.636 23.0663H117.49C115.976 24.9986 113.663 26 110.992 26C106.406 26 103.539 22.5656 103.539 18.5271C103.539 12.1321 109.212 9.22941 116.914 9.22113V8.83838C116.914 7.34877 116.089 5.62329 112.756 5.62743C110.918 5.62743 109.094 6.09914 107.631 6.7674C107.054 7.03222 106.377 6.69913 106.204 6.08673L105.455 3.42818C105.313 2.92543 105.562 2.39993 106.035 2.17856C107.782 1.35927 110.61 0.50067 114.14 0.50067C122.053 0.50067 124.217 5.43709 124.217 10.9507V19.6609C124.217 21.347 124.281 22.9959 124.429 24.3304C124.5 24.9511 124.007 25.491 123.384 25.491H118.942L118.94 25.4952ZM117.129 14.9024C117.129 14.2982 116.621 13.81 116.021 13.8472C113.055 14.0334 110.623 15.043 110.623 17.7719C110.623 19.8781 111.928 20.8174 113.438 20.8174C115.056 20.8174 116.506 19.7602 116.989 18.2168C117.1 17.8464 117.129 17.3975 117.129 16.9713V14.9024Z" fill="white"/>
+                <path d="M128.367 8.43909C128.367 5.8964 128.295 3.66404 128.213 1.64892C128.188 1.03239 128.675 0.521366 129.283 0.521366H133.624C134.172 0.521366 134.63 0.939286 134.69 1.49169L134.94 3.84404H135.084C136.169 2.10408 138.591 0 142.277 0C147.251 0 150.5 3.55232 150.5 10.4418V24.6614C150.5 25.2614 150.019 25.7476 149.427 25.7476H144.144C143.552 25.7476 143.072 25.2614 143.072 24.6614V11.2238C143.072 8.31289 142.123 6.1426 139.581 6.1426C137.762 6.1426 136.6 7.4336 136.085 8.89632C135.891 9.39286 135.792 10.1666 135.792 10.9507V24.6594C135.792 25.2593 135.311 25.7455 134.719 25.7455H129.436C128.844 25.7455 128.363 25.2593 128.363 24.6594V8.43909H128.367Z" fill="white"/>
+                <path d="M64.5666 25.4952C60.5295 25.4952 56.8184 23.6063 54.3842 20.3147C53.5797 19.2264 53.8169 17.6913 54.9123 16.8927C55.3393 16.5823 55.8427 16.4168 56.3708 16.4168C57.1526 16.4168 57.8952 16.7892 58.3594 17.4161C59.855 19.4395 62.12 20.5981 64.5687 20.5981C68.8595 20.5981 72.3499 17.1327 72.3499 12.8707C72.3499 8.60875 68.8595 5.14333 64.5687 5.14333C61.6435 5.14333 58.8895 6.69294 57.3816 9.18805L51.4137 19.0733C49.0207 23.0332 44.6495 25.4911 40.0018 25.4911C32.9921 25.4911 27.2903 19.8285 27.2903 12.8686C27.2903 5.90883 32.99 0.252422 39.9997 0.252422C44.0657 0.252422 47.7789 2.14548 50.1904 5.44332C50.9887 6.53571 50.7432 8.06877 49.6437 8.86116C49.2187 9.16736 48.7195 9.32874 48.1976 9.32874C47.4096 9.32874 46.6628 8.95012 46.2007 8.31911C44.7278 6.30399 42.4669 5.14747 39.9997 5.14747C35.7089 5.14747 32.2185 8.61289 32.2185 12.8748C32.2185 17.1368 35.7089 20.6022 39.9997 20.6022C42.9249 20.6022 45.6788 19.0526 47.1868 16.5575L53.1506 6.67846C55.5456 2.71443 59.9189 0.254491 64.5666 0.254491C71.5763 0.254491 77.2781 5.9171 77.2781 12.8769C77.2781 19.8367 71.5763 25.4993 64.5666 25.4993V25.4952Z" fill="white"/>
+                </svg>
+                </Box>
+                {/* Navigation Links */}
+                 <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems: 'center', gap: '48px', flexGrow: 1 ,cursor:"pointer", width:"593px"}}>
+                {['Home', 'TV Shows', 'Movies', 'Anime', 'New', 'My List'].map((item, index) => (
+                <Box key={index} sx={{ display: 'flex', alignItems: 'center',height: 37 }}>
+                <Typography
+                sx={{
+                color: 'hsla(0, 0%, 100%, 1)',
+                fontFamily: 'Cairo, sans-serif',
+                fontSize: 16,
+                fontStyle: 'normal',
+                lineHeight: 'normal',
+                padding: '0 10px', // Optional padding
+                }}
+               >
+                {item}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
+      
 
-                {/* horizontal menu */}
-                <ul className="horizontal-menu hidden border-t border-[#ebedf2] bg-white px-6 py-1.5 font-semibold text-black rtl:space-x-reverse dark:border-[#191e3a] dark:bg-black dark:text-white-dark lg:space-x-1.5 xl:space-x-8">
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuDashboard className="shrink-0" />
-                                <span className="px-1">{t('dashboard')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link href="/">{t('sales')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/analytics">{t('analytics')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/finance">{t('finance')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/crypto">{t('crypto')}</Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuApps className="shrink-0" />
-                                <span className="px-1">{t('apps')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link href="/apps/chat">{t('chat')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/apps/mailbox">{t('mailbox')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/apps/todolist">{t('todo_list')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/apps/notes">{t('notes')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/apps/scrumboard">{t('scrumboard')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/apps/contacts">{t('contacts')}</Link>
-                            </li>
-                            <li className="relative">
-                                <button type="button">
-                                    {t('invoice')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/apps/invoice/list">{t('list')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/apps/invoice/preview">{t('preview')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/apps/invoice/add">{t('add')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/apps/invoice/edit">{t('edit')}</Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <Link href="/apps/calendar">{t('calendar')}</Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuComponents className="shrink-0" />
-                                <span className="px-1">{t('components')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link href="/components/tabs">{t('tabs')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/accordions">{t('accordions')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/modals">{t('modals')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/cards">{t('cards')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/carousel">{t('carousel')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/countdown">{t('countdown')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/counter">{t('counter')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/sweetalert">{t('sweet_alerts')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/timeline">{t('timeline')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/notifications">{t('notifications')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/media-object">{t('media_object')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/list-group">{t('list_group')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/pricing-table">{t('pricing_tables')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/components/lightbox">{t('lightbox')}</Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuElements className="shrink-0" />
-                                <span className="px-1">{t('elements')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link href="/elements/alerts">{t('alerts')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/avatar">{t('avatar')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/badges">{t('badges')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/breadcrumbs">{t('breadcrumbs')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/buttons">{t('buttons')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/buttons-group">{t('button_groups')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/color-library">{t('color_library')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/dropdown">{t('dropdown')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/infobox">{t('infobox')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/jumbotron">{t('jumbotron')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/loader">{t('loader')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/pagination">{t('pagination')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/popovers">{t('popovers')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/progress-bar">{t('progress_bar')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/search">{t('search')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/tooltips">{t('tooltips')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/treeview">{t('treeview')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/elements/typography">{t('typography')}</Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuDatatables className="shrink-0" />
-                                <span className="px-1">{t('tables')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link href="/tables">{t('tables')}</Link>
-                            </li>
-                            <li className="relative">
-                                <button type="button">
-                                    {t('datatables')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/datatables/basic">{t('basic')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/advanced">{t('advanced')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/skin">{t('skin')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/order-sorting">{t('order_sorting')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/multi-column">{t('multi_column')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/multiple-tables">{t('multiple_tables')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/alt-pagination">{t('alt_pagination')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/checkbox">{t('checkbox')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/range-search">{t('range_search')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/export">{t('export')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/datatables/column-chooser">{t('column_chooser')}</Link>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuForms className="shrink-0" />
-                                <span className="px-1">{t('forms')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link href="/forms/basic">{t('basic')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/input-group">{t('input_group')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/layouts">{t('layouts')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/validation">{t('validation')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/input-mask">{t('input_mask')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/select2">{t('select2')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/touchspin">{t('touchspin')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/checkbox-radio">{t('checkbox_and_radio')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/switches">{t('switches')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/wizards">{t('wizards')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/file-upload">{t('file_upload')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/quill-editor">{t('quill_editor')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/markdown-editor">{t('markdown_editor')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/date-picker">{t('date_and_range_picker')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/forms/clipboard">{t('clipboard')}</Link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuPages className="shrink-0" />
-                                <span className="px-1">{t('pages')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li className="relative">
-                                <button type="button">
-                                    {t('users')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/users/profile">{t('profile')}</Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/users/user-account-settings">{t('account_settings')}</Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <Link href="/pages/knowledge-base">{t('knowledge_base')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/pages/contact-us-boxed" target="_blank">
-                                    {t('contact_us_boxed')}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/pages/contact-us-cover" target="_blank">
-                                    {t('contact_us_cover')}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/pages/faq">{t('faq')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/pages/coming-soon-boxed" target="_blank">
-                                    {t('coming_soon_boxed')}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/pages/coming-soon-cover" target="_blank">
-                                    {t('coming_soon_cover')}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/pages/maintenence" target="_blank">
-                                    {t('maintenence')}
-                                </Link>
-                            </li>
-                            <li className="relative">
-                                <button type="button">
-                                    {t('error')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/pages/error404" target="_blank">
-                                            {t('404')}
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/pages/error500" target="_blank">
-                                            {t('500')}
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/pages/error503" target="_blank">
-                                            {t('503')}
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="relative">
-                                <button type="button">
-                                    {t('login')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/auth/cover-login" target="_blank">
-                                            {t('login_cover')}
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/auth/boxed-signin" target="_blank">
-                                            {t('login_boxed')}
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="relative">
-                                <button type="button">
-                                    {t('register')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/auth/cover-register" target="_blank">
-                                            {t('register_cover')}
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/auth/boxed-signup" target="_blank">
-                                            {t('register_boxed')}
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="relative">
-                                <button type="button">
-                                    {t('password_recovery')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/auth/cover-password-reset" target="_blank">
-                                            {t('recover_id_cover')}
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/auth/boxed-password-reset" target="_blank">
-                                            {t('recover_id_boxed')}
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="relative">
-                                <button type="button">
-                                    {t('lockscreen')}
-                                    <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                        <IconCaretDown />
-                                    </div>
-                                </button>
-                                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                    <li>
-                                        <Link href="/auth/cover-lockscreen" target="_blank">
-                                            {t('unlock_cover')}
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/auth/boxed-lockscreen" target="_blank">
-                                            {t('unlock_boxed')}
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li className="menu nav-item relative">
-                        <button type="button" className="nav-link">
-                            <div className="flex items-center">
-                                <IconMenuMore className="shrink-0" />
-                                <span className="px-1">{t('more')}</span>
-                            </div>
-                            <div className="right_arrow">
-                                <IconCaretDown />
-                            </div>
-                        </button>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link href="/dragndrop">{t('drag_and_drop')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/charts">{t('charts')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/font-icons">{t('font_icons')}</Link>
-                            </li>
-                            <li>
-                                <Link href="/widgets">{t('widgets')}</Link>
-                            </li>
-                            <li>
-                                <Link href="https://vristo.sbthemes.com" target="_blank">
-                                    {t('documentation')}
-                                </Link>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </header>
+      
+      
+     
+     <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '16px' ,paddingLeft:{
+      sm:"15rem",
+      lg:"0rem"
+     }}}>
+       
+     {/* Right Side Inner Container */}
+     {/**search bar */}
+     
+     <Box
+      sx={{
+      height:39,
+      display: {lg:'flex',xs:"none"},
+      padding: 'var(--Space-XS, 0.25rem) var(--Space-XL, 1.5rem)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 'var(--Space-M, 0.75rem)',
+      borderRadius: 'var(--Space-XL, 1.5rem)',
+      border: '1px solid var(--Gradients-Outline, rgba(0, 0, 0, 0.20))',
+      background: 'rgba(77, 77, 77, 0.60)',
+      backdropFilter: 'blur(2px)',
+      }}
+      >
+      <Typography sx={{color: 'rgba(255, 255, 255, 0.50)',
+      textAlign: 'center',
+      fontFamily: 'Cairo, sans-serif',
+      fontSize: '1rem',
+      fontStyle: 'normal',
+      fontWeight: 600,
+      lineHeight: 'normal'}}>Search</Typography>
+
+      <Box sx={{ width: '4.5rem', height: '0.9375rem' }} />
+      <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20.1707 18.0995L15.7786 13.7057C17.0955 11.9897 17.7103 9.83709 17.4983 7.68447C17.2864 5.53186 16.2635 3.54046 14.6372 2.11425C13.0109 0.688038 10.903 -0.0661898 8.74099 0.00456313C6.57902 0.075316 4.52492 0.965752 2.99536 2.49524C1.4658 4.02473 0.57532 6.07874 0.504563 8.24061C0.433807 10.4025 1.18807 12.5103 2.61435 14.1365C4.04062 15.7628 6.03211 16.7856 8.18483 16.9976C10.3375 17.2095 12.4903 16.5947 14.2064 15.2779L18.6021 19.6744C18.7054 19.7776 18.8279 19.8595 18.9628 19.9154C19.0977 19.9712 19.2423 20 19.3883 20C19.5343 20 19.6788 19.9712 19.8137 19.9154C19.9486 19.8595 20.0711 19.7776 20.1744 19.6744C20.2776 19.5712 20.3595 19.4486 20.4154 19.3137C20.4712 19.1789 20.5 19.0343 20.5 18.8883C20.5 18.7423 20.4712 18.5978 20.4154 18.4629C20.3595 18.328 20.2776 18.2055 20.1744 18.1022L20.1707 18.0995ZM2.73829 8.52683C2.73829 7.28306 3.10713 6.06721 3.79816 5.03305C4.4892 3.99888 5.4714 3.19285 6.62055 2.71688C7.76971 2.2409 9.03421 2.11637 10.2541 2.35902C11.4741 2.60167 12.5947 3.2006 13.4742 4.08009C14.3537 4.95957 14.9527 6.0801 15.1953 7.29998C15.438 8.51986 15.3134 9.7843 14.8375 10.9334C14.3615 12.0825 13.5554 13.0647 12.5212 13.7557C11.487 14.4467 10.2711 14.8155 9.02723 14.8155C7.35982 14.8138 5.7612 14.1507 4.58217 12.9717C3.40313 11.7927 2.74 10.1942 2.73829 8.52683Z" fill="white"/>
+      </svg>
+      </Box>
+         {/** profile icon  */}
+        <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="0.5" y="0.5" width="38" height="38" rx="19" fill="#4D4D4D" fill-opacity="0.6"/>
+                    <rect x="0.5" y="0.5" width="38" height="38" rx="19" stroke="url(#paint0_linear_112_189)"/> 
+                   <path d="M29.3685 27.3279C28.099 25.1337 26.1166 23.4241 23.7405 22.4741C24.9221 21.6014 25.7949 20.3847 26.2353 18.9964C26.6757 17.6081 26.6613 16.1184 26.1943 14.7386C25.7272 13.3587 24.8311 12.1586 23.6329 11.3081C22.4346 10.4576 20.9951 10 19.518 10C18.041 10 16.6014 10.4576 15.4032 11.3081C14.205 12.1586 13.3089 13.3587 12.8418 14.7386C12.3747 16.1184 12.3604 17.6081 12.8008 18.9964C13.2412 20.3847 14.114 21.6014 15.2956 22.4741C12.9195 23.4241 10.9371 25.1337 9.66759 27.3279C9.58893 27.4525 9.53649 27.5913 9.51342 27.7362C9.49034 27.8812 9.49708 28.0292 9.53325 28.1715C9.56942 28.3138 9.63427 28.4474 9.72395 28.5646C9.81363 28.6817 9.92631 28.7799 10.0553 28.8532C10.1843 28.9266 10.3269 28.9737 10.4747 28.9917C10.6226 29.0097 10.7726 28.9983 10.9158 28.9581C11.0591 28.9179 11.1926 28.8497 11.3086 28.7576C11.4246 28.6655 11.5205 28.5515 11.5908 28.4221C13.2687 25.5662 16.2318 23.8629 19.518 23.8629C22.8043 23.8629 25.7674 25.5671 27.4453 28.4221C27.5976 28.6633 27.8392 28.8368 28.119 28.9057C28.3989 28.9747 28.6949 28.9338 28.9447 28.7917C29.1945 28.6496 29.3783 28.4174 29.4574 28.1443C29.5365 27.8711 29.5046 27.5783 29.3685 27.3279ZM14.703 16.9328C14.703 15.995 14.9854 15.0783 15.5145 14.2985C16.0436 13.5187 16.7956 12.911 17.6754 12.5521C18.5552 12.1932 19.5234 12.0993 20.4574 12.2823C21.3914 12.4652 22.2494 12.9168 22.9228 13.58C23.5962 14.2431 24.0548 15.088 24.2406 16.0078C24.4264 16.9275 24.331 17.8809 23.9666 18.7473C23.6021 19.6138 22.985 20.3543 22.1931 20.8753C21.4013 21.3963 20.4704 21.6744 19.518 21.6744C18.2415 21.673 17.0176 21.173 16.1149 20.284C15.2122 19.3951 14.7045 18.1899 14.703 16.9328Z" fill="white"/>
+                  <defs>
+                <linearGradient id="paint0_linear_112_189" x1="19.5" y1="39" x2="19.5" y2="0" gradientUnits="userSpaceOnUse">
+               <stop stop-opacity="0.2"/>
+              <stop offset="1" stop-color="#666666"/>
+             </linearGradient>
+            </defs>
+        </svg>
+          </Box>
+        </Box>
+
+        
+
+
+        <Box sx={{ display: 'flex', alignSelf:"center",justifyContent: 'center', alignItems: 'center', gap: '12px', flexGrow: 1 ,width:"415px", height:"42px",cursor:"pointer" , paddingLeft:{
+          sm:"10rem",
+          md:"0rem"
+        }}}>
+         <PlatformSelection/>
+        <CustomSelect/>
+        </Box>
+
+       
+         
+        </AppBar>
     );
-};
+  };
 
-export default Header;
+  export default Header;
+
+
+/**
+ *  <header className='header'>
+
+    <div className='logo flex justify-start self-start justify-items-start' >
+     <svg width="151" height="26" viewBox="0 0 151 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.2452 0.517264C7.73617 0.517264 8.16319 0.850358 8.2849 1.32621L10.9935 11.9894C11.5236 14.1266 11.9259 16.1727 12.3013 18.3306H12.4499C12.8067 16.1272 13.2049 14.1948 13.7103 11.9894L16.3178 1.33448C16.4354 0.854496 16.8644 0.515195 17.3595 0.515195H22.6859C23.4203 0.515195 23.9381 1.23931 23.7008 1.93861L15.9464 24.7484C15.7979 25.1849 15.3895 25.4766 14.9315 25.4766H9.2297C8.76967 25.4766 8.36122 25.1828 8.2127 24.7442L0.557332 1.93447C0.322163 1.23725 0.839947 0.517264 1.57227 0.517264H7.2452Z" fill="white"/>
+<path d="M99.3573 23.6725C99.4316 24.1773 99.1222 24.6594 98.6188 24.8125C97.3378 25.2014 95.4482 25.4952 93.3543 25.4952C85.8331 25.4952 81.0142 20.896 81.0142 13.241C81.0142 6.0764 85.8558 0.504823 94.4002 0.504823C95.902 0.504823 97.4615 0.724127 98.7034 1.0655C99.2336 1.21032 99.5492 1.73789 99.4419 2.25926L98.7529 5.63158C98.6333 6.21709 98.0268 6.56259 97.4306 6.41156C96.7251 6.23157 95.8442 6.10123 94.7468 6.10123C90.9201 6.10123 88.5189 8.95219 88.5416 12.9679C88.5416 17.3706 91.2605 19.8202 94.8128 19.8202C95.8566 19.8202 96.7498 19.7022 97.5379 19.4995C98.1547 19.3402 98.7735 19.7416 98.8643 20.3519L99.3594 23.6725H99.3573Z" fill="white"/>
+<path d="M118.94 25.4952C118.428 25.4952 117.991 25.1269 117.905 24.62L117.636 23.0663H117.49C115.976 24.9986 113.663 26 110.992 26C106.406 26 103.539 22.5656 103.539 18.5271C103.539 12.1321 109.212 9.22941 116.914 9.22113V8.83838C116.914 7.34877 116.089 5.62329 112.756 5.62743C110.918 5.62743 109.094 6.09914 107.631 6.7674C107.054 7.03222 106.377 6.69913 106.204 6.08673L105.455 3.42818C105.313 2.92543 105.562 2.39993 106.035 2.17856C107.782 1.35927 110.61 0.50067 114.14 0.50067C122.053 0.50067 124.217 5.43709 124.217 10.9507V19.6609C124.217 21.347 124.281 22.9959 124.429 24.3304C124.5 24.9511 124.007 25.491 123.384 25.491H118.942L118.94 25.4952ZM117.129 14.9024C117.129 14.2982 116.621 13.81 116.021 13.8472C113.055 14.0334 110.623 15.043 110.623 17.7719C110.623 19.8781 111.928 20.8174 113.438 20.8174C115.056 20.8174 116.506 19.7602 116.989 18.2168C117.1 17.8464 117.129 17.3975 117.129 16.9713V14.9024Z" fill="white"/>
+<path d="M128.367 8.43909C128.367 5.8964 128.295 3.66404 128.213 1.64892C128.188 1.03239 128.675 0.521366 129.283 0.521366H133.624C134.172 0.521366 134.63 0.939286 134.69 1.49169L134.94 3.84404H135.084C136.169 2.10408 138.591 0 142.277 0C147.251 0 150.5 3.55232 150.5 10.4418V24.6614C150.5 25.2614 150.019 25.7476 149.427 25.7476H144.144C143.552 25.7476 143.072 25.2614 143.072 24.6614V11.2238C143.072 8.31289 142.123 6.1426 139.581 6.1426C137.762 6.1426 136.6 7.4336 136.085 8.89632C135.891 9.39286 135.792 10.1666 135.792 10.9507V24.6594C135.792 25.2593 135.311 25.7455 134.719 25.7455H129.436C128.844 25.7455 128.363 25.2593 128.363 24.6594V8.43909H128.367Z" fill="white"/>
+<path d="M64.5666 25.4952C60.5295 25.4952 56.8184 23.6063 54.3842 20.3147C53.5797 19.2264 53.8169 17.6913 54.9123 16.8927C55.3393 16.5823 55.8427 16.4168 56.3708 16.4168C57.1526 16.4168 57.8952 16.7892 58.3594 17.4161C59.855 19.4395 62.12 20.5981 64.5687 20.5981C68.8595 20.5981 72.3499 17.1327 72.3499 12.8707C72.3499 8.60875 68.8595 5.14333 64.5687 5.14333C61.6435 5.14333 58.8895 6.69294 57.3816 9.18805L51.4137 19.0733C49.0207 23.0332 44.6495 25.4911 40.0018 25.4911C32.9921 25.4911 27.2903 19.8285 27.2903 12.8686C27.2903 5.90883 32.99 0.252422 39.9997 0.252422C44.0657 0.252422 47.7789 2.14548 50.1904 5.44332C50.9887 6.53571 50.7432 8.06877 49.6437 8.86116C49.2187 9.16736 48.7195 9.32874 48.1976 9.32874C47.4096 9.32874 46.6628 8.95012 46.2007 8.31911C44.7278 6.30399 42.4669 5.14747 39.9997 5.14747C35.7089 5.14747 32.2185 8.61289 32.2185 12.8748C32.2185 17.1368 35.7089 20.6022 39.9997 20.6022C42.9249 20.6022 45.6788 19.0526 47.1868 16.5575L53.1506 6.67846C55.5456 2.71443 59.9189 0.254491 64.5666 0.254491C71.5763 0.254491 77.2781 5.9171 77.2781 12.8769C77.2781 19.8367 71.5763 25.4993 64.5666 25.4993V25.4952Z" fill="white"/>
+</svg>
+
+    </div>
+
+
+
+    
+
+
+
+</header>
+
+
+
+
+ */
