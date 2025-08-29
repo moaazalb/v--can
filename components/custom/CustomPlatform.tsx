@@ -112,8 +112,14 @@ export const PlatformSelection = () => {
         <IconButton
           onClick={() => setShowSelection(true)}
           sx={{
-            width: '40px',
-            height: '40px',
+            width: {
+              xs:"30px",
+              sm:"40px"
+            },
+            height: {
+              xs:"30px",
+              sm:"40px"
+            },
             padding: 0,
             
           }}

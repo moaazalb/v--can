@@ -4,36 +4,36 @@ import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import { Box, IconButton, Typography } from "@mui/material";
-import movie1 from '@/public/assets/images/m1.svg';
-import movie2 from '@/public/assets/images/m2.svg';
-import movie3 from '@/public/assets/images/m3.svg';
-import movie4 from '@/public/assets/images/m4.svg';
-import movie5 from '@/public/assets/images/m5.svg';
-import movie6 from '@/public/assets/images/m6.svg'
+import movie1 from '@/public/assets/images/movies/m1.svg';
+import movie2 from '@/public/assets/images/movies/m2.svg';
+import movie3 from '@/public/assets/images/movies/m3.svg';
+import movie4 from '@/public/assets/images/movies/m4.svg';
+import movie5 from '@/public/assets/images/movies/m5.svg';
+import movie6 from '@/public/assets/images/movies/m6.svg';
 
 interface Movie {
   src: any;
   watched?: boolean;
   progress?: number;
-  name: string // 0 to 1
+  
 }
 
 const movies: Movie[] = [
-  { src: movie1, progress: 0.5 ,name: "Day Shift"  }, // half watched
-  { src: movie2, watched: true, name:"Fast & Furious 7" }, // fully watched
-  { src: movie3, progress: 0.2 , name:"1917"},
-  { src: movie4 , name:"Severance", watched: true },
-  {src:movie5 ,  name:"John Wick:Ballerina"},
-  {src:movie6 , name:"Stranger Things"}
+  { src: movie1, progress: 0.5   }, // half watched
+  { src: movie2, watched: true, }, // fully watched
+  { src: movie3, progress: 0.2},
+  { src: movie4 ,  watched: true },
+  {src:movie5 ,  },
+  {src:movie6 , }
 ];
 
 
 
 export default function CategorySliderNoSlick() {
-    const SLIDE_W = 310; // px
-  const GAP = 24; // px
-  const VISIBLE_SLIDES = 4;
-  const SIDE_PADDING = 180; // left/right padding to avoid fades overlapping content
+    const SLIDE_W = 193; // px
+  const GAP = 0; // px
+  const VISIBLE_SLIDES = 1;
+  const SIDE_PADDING = 300; // default desktop
 
   const [index, setIndex] = useState(0);
   const maxIndex = Math.max(0, movies.length - VISIBLE_SLIDES);
@@ -54,13 +54,18 @@ export default function CategorySliderNoSlick() {
     <Box
       sx={{
         width:"100%",
-        height: 245,
+        height: 
+        {
+          xs:173,
+        sm:351,
+      }
+        ,
         position: "relative",
         overflow: "hidden",
         backgroundColor: "#0A0C0F", // dark background behind slider + fades
       }}
     >
-      <Typography sx={{ mb: 2, color: "#fff", fontWeight: "bold", pl: 6, pb:4}}>
+      <Typography sx={{ mb: 2, color: "#fff", fontWeight: "bold", pl: { xs: 2, md: 6 }, pb:4}}>
         
       </Typography>
 
@@ -71,8 +76,12 @@ export default function CategorySliderNoSlick() {
         aria-label="previous"
         sx={{
           position: "absolute",
-          left: 30,
-          top: "50%",
+          left: { xs: -30, sm:25, md: 30 },
+          top: {
+            xs:110,
+            sm:"40%",
+            md:"50%"
+          },
           transform: "translateY(-50%)",
           zIndex: 60,
           pointerEvents: "auto",
@@ -90,8 +99,12 @@ export default function CategorySliderNoSlick() {
         aria-label="next"
         sx={{
           position: "absolute",
-          right: 45,
-          top: "50%",
+          right: { xs: -9, md: 45 },
+          top: {
+            xs:110,
+            sm:"40%",
+            md:"50%"
+          },
           transform: "translateY(-50%)",
           zIndex: 60,
           pointerEvents: "auto",
@@ -105,9 +118,9 @@ export default function CategorySliderNoSlick() {
       sx={{
        position: "absolute",
        left: 0,
-       top: 0,               // fade aligned to top of slider viewport (or movie image top)
-       width: SIDE_PADDING,  // same as padding on slider viewport, 180 is good
-       height: 190,          // match movie image height
+       top: 0,
+               width: { xs: 40, sm: 220, md: SIDE_PADDING },
+       height: 351,
        background: 'linear-gradient(to left, #0A0C0F 100%, rgba(11, 13, 16, 0) 100%)',
        zIndex: 3,
        pointerEvents: "none",
@@ -119,9 +132,9 @@ export default function CategorySliderNoSlick() {
         sx={{
         position: "absolute",
         right: 0,
-        top: 0,               // same as left fade
-        width: SIDE_PADDING,  // same width, 180 px
-        height: 190,          // match movie image heigh
+        top: 0,
+        width: { xs: 40, sm: 80, md:SIDE_PADDING },
+        height: 351,
         background: 'linear-gradient(to left, #0A0C0F 40%, rgba(11, 13, 16, 0) 100%)',
         zIndex: 3,
         pointerEvents: "none",
@@ -131,19 +144,20 @@ export default function CategorySliderNoSlick() {
       {/* Slider viewport */}
       <Box
         sx={{
-          width: "100%",
-          height: 162,
+          width: { xs: "100%", sm: "100%", md: "100%" }, // Show 2.3 slides on xs
+          height: 351,
           overflow: "hidden",
-          paddingLeft: `${SIDE_PADDING}px`,
-          paddingRight: `${SIDE_PADDING}px`,
-          boxSizing: "border-box", // important so padding doesn't reduce visible width
+          pl: { xs: 10, sm: 0, md: `${SIDE_PADDING}px` },
+          pr: { xs: 12, sm: 4, md: `${SIDE_PADDING}px` },
+          boxSizing: "border-box",
+          mx: { xs: "auto", sm: 0, md: 0 }, // Center the viewport on xs
         }}
       >
         {/* Track */}
         <Box
           sx={{
             display: "flex",
-            gap: `${GAP}px`,
+            gap: { xs: "10px", sm: `${GAP}px` },
             transition: "transform 0.4s ease",
             transform: `translateX(-${index * (SLIDE_W + GAP)}px)`,
             height: "100%",
@@ -155,7 +169,7 @@ export default function CategorySliderNoSlick() {
            <Box
             key={idx}
             sx={{
-            minWidth: SLIDE_W,
+            minWidth: { xs: 70, sm: SLIDE_W, md: SLIDE_W },
             flexShrink: 0,
             display: "flex",
             flexDirection: "column",
@@ -167,13 +181,15 @@ export default function CategorySliderNoSlick() {
             <Box
             sx={{
             width: {
-              xs:162,
-              lg:288
+              xs: 97,
+              sm: 150,
+              md: 169,
             },
-             height: {
-              xs:243,
-              lg:162
-             },
+            height: {
+              xs: 144,
+              sm: 222,
+              md: 249,
+            },
              position: "relative",
              borderRadius: 0,
              background: "#111",
@@ -225,23 +241,7 @@ export default function CategorySliderNoSlick() {
       )}
     </Box>
 
-    {/* The movie name OUTSIDE the image box, directly below */}
-    <Typography
-      sx={{
-        fontFamily: "Cairo, sans-serif",
-        fontWeight: 700,
-        fontSize: "16px",
-        color: "#ffffff",
-        textAlign: "start",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        width: "100%",
-        px: 1,
-        }}
-         >
-      {m.name}
-    </Typography>
+  
   </Box>
 ))}
           

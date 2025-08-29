@@ -11,8 +11,14 @@ export const CustomSelect = () => {
   return (
   <Box
   sx={{
-    width: '94px',
-    height: '42px',
+    width: {
+      xs:"67px",
+      sm:"94px"
+    },
+    height: {
+      xs:"30px",
+      sm:"42px"
+    },
     borderRadius: '24px',
     paddingTop: '4px',
     paddingBottom: '4px',

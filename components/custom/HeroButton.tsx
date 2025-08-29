@@ -21,7 +21,7 @@ export default function HeroSection() {
   const handleMouseUp = () => setButtonState("hover");
 
   return (
-    <section className="relative w-full h-[400px] flex items-center justify-center">
+    <section className="relative w-full flex items-center justify-center">
       {/* Hero content here */}
       <Image
         src={getButtonSrc()}
