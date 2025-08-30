@@ -6,6 +6,16 @@ import logo from "@/public/assets/images/logo.svg";
 import profile from "@/public/assets/images/profileIcon.svg";
 import search from "@/public/assets/images/searchIcon.svg"
 import Image from 'next/image';
+import Link from 'next/link';
+
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "TV Shows", href: "/tv-shows" },
+  { name: "Movies", href: "/movies" },
+  { name: "Anime", href: "/anime" },
+  { name: "New", href: "/new" },
+  { name: "My List", href: "/my-list" },
+];
 
 const Header = () => {
   return (
@@ -24,19 +34,20 @@ const Header = () => {
         </div>
         {/* Navigation Links */}
         <div className="hidden md:flex justify-center items-center gap-12 flex-grow cursor-pointer w-[593px]">
-          {['Home', 'TV Shows', 'Movies', 'Anime', 'New', 'My List'].map((item, index) => (
-            <div key={index} className="flex items-center h-[37px]">
-              <span 
-                className="text-white font-normal text-base px-2.5"
-                style={{ 
-                  fontFamily: 'Cairo, sans-serif',
-                  lineHeight: 'normal'
-                }}
-              >
-                {item}
-              </span>
-            </div>
-          ))}
+        {navLinks.map((link, index) => (
+        <div key={index} className="flex items-center h-[37px]">
+          <Link
+            href={link.href}
+            className="text-white font-normal text-base px-2.5 "
+            style={{
+              fontFamily: "Cairo, sans-serif",
+              lineHeight: "normal",
+            }}
+          >
+            {link.name}
+          </Link>
+        </div>
+      ))}
         </div>
 
         <div className="hidden md:flex items-center gap-4 sm:pl-60 lg:pl-0">
