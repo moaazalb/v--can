@@ -5,7 +5,6 @@ import React from 'react';
 import CategorySlider from '@/components/slider/Slider';
 import LoveButton from "@/components/custom/LoveButton"
 import GradientButton from '@/components/custom/HeroButton';
-import { Box } from '@mui/material';
 import MobileHeader from '@/components/TabAndMobHeader/mobileHeader';
 import TabletHeader from '@/components/TabAndMobHeader/tabletHeader';
 import show from "@/public/assets/images/showDetails.svg";
@@ -52,15 +51,48 @@ export default function HomePage() {
     }}
   />
        
-       <div className="relative pt-[13rem] z-10 flex flex-col h-full text-center text-white px-4 md:items-center lg:items-start">
+       <div className="relative pt-[13rem] ml-[1.5rem] z-10 flex flex-col h-full text-center text-white px-4 items-center lg:items-start">
             <Image src={history} width={300} height={124} alt='1917'/>
        
-        {/* First Div (maybe a headline) */}
-        <div className="text-4xl font-bold mb-4 pt-4 lg:ml-2 md:ml-0 ">
-         <Image src={show} width={339} height={22} alt='show'/>
-        </div>
+       
+         {/* First Div (maybe a headline) */}
+         <div
+      className="flex md:pr-8 gap-1 md:gap-[17px] pt-8 text-white pb-8 
+      place-content-center lg:place-content-start lg:ml-4 
+      md:w-full w-[90%] whitespace-nowrap 
+      text-sm sm:text-sm md:text-base"
+      style={{
+        //paddingLeft:4,
+        fontFamily: "Cairo, sans-serif",
+        //fontWeight: 700,
+       //fontSize: "10px",
+        lineHeight: "100%",
+      }}
+    >
+      {/* Year */}
+      <span className="w-[36px] font- h-[30px] inline-block">2019</span>
+
+      {/* Dot */}
+      <span className="gap-4 w-[10px] h-[10px] rounded-full bg-[#D9D9D9] inline-block"></span>
+
+      {/* Genre */}
+      <span className=" gap-4 w-[178px] h-[30px] inline-block">Historical Drama & Action</span>
+
+      {/* Dot */}
+      <span className="gap-4 w-[10px] h-[10px] rounded-full bg-[#D9D9D9] inline-block"></span>
+
+      {/* Duration */}
+      <span className="w-[53px] h-[30px] inline-block gap-4">1h 59m</span>
+
+      {/* Dot */}
+      <span className="w-[10px] h-[10px] rounded-full bg-[#D9D9D9] inline-block gap-4"></span>
+
+      {/* Rating */}
+      <span className="w-[88px] h-[30px] text-[#056700] inline-block gap-4">8.2/10 IMDb</span>
+    </div>
+
            {/* Second Div (maybe a subtitle) */}
-        <div className="lg:pl-2 md:pl-0 text-start text-base mb-6 font-cairo  text-[hsla(0, 0%, 100%, 1)] ">
+        <div className="lg:pl-2 place-content-center lg:place-content-start md:pl-0 text-start text-base mb-6 font-cairo  text-[hsla(0, 0%, 100%, 1)] ">
           <p>April 6th, 1917. As an infantry battalion assembles to wage war deep in enemy territory,</p> 
           <p> two soldiers are assigned to race against time and deliver a message</p>
           <p>that will stop 1,6 men from walking straight into a deadly  trap. </p>
@@ -117,10 +149,3 @@ export default function HomePage() {
 
 
 
-/**
- * <div className="absolute bottom-6 left-6 font-cairo font-bold text-[24px] text-[#FFFFFF] pl-12"
-       
-        >
-        Category (Trend - New - Continue watching)
-        </div>
- */
