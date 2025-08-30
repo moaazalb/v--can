@@ -36,7 +36,7 @@ const Footer = () => {
         Home
       </Link>
       <Link
-        href="/tvShows"
+        href="/tv-shows"
         className="w-[82px] h-[37px]   relative text-[#FFFFFF] font-cairo text-[16px] leading-none text-center 
                after:content-[''] after:absolute after:left-0 after:-bottom-0 after:w-0 after:h-[2px] after:bg-white 
                hover:after:w-full after:transition-all after:duration-300"
@@ -68,7 +68,7 @@ const Footer = () => {
         New
       </Link>
        <Link
-        href="/myList"
+        href="/my-list"
         className=" w-[65px] h-[37px] relative text-[#FFFFFF] font-cairo text-[16px] leading-none text-center 
                after:content-[''] after:absolute after:left-0 after:-bottom-0 after:w-0 after:h-[2px] after:bg-white 
                hover:after:w-full after:transition-all after:duration-300"
